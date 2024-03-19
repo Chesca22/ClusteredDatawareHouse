@@ -4,6 +4,7 @@ import com.francisca.ClusteredDataWareHouse.dto.DealApiResponse;
 import com.francisca.ClusteredDataWareHouse.dto.DealRequestDto;
 import com.francisca.ClusteredDataWareHouse.exception.DealAlreadyExistException;
 import com.francisca.ClusteredDataWareHouse.service.FXDealService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ private final FXDealService dealService;
 
 
 @PostMapping
-public ResponseEntity<?> saveDealDetails(@RequestBody DealRequestDto dto) {
+public ResponseEntity<?> saveDealDetails(@Valid @RequestBody DealRequestDto dto) {
 
         log.info("Deal details saved in the successfully");
         return new ResponseEntity<>( dealService.saveFxDealDetails(dto), HttpStatus.CREATED);
