@@ -2,6 +2,7 @@ package com.francisca.ClusteredDataWareHouse.controller;
 
 import com.francisca.ClusteredDataWareHouse.dto.DealApiResponse;
 import com.francisca.ClusteredDataWareHouse.dto.DealRequestDto;
+import com.francisca.ClusteredDataWareHouse.exception.DealAlreadyExistException;
 import com.francisca.ClusteredDataWareHouse.service.FXDealService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +22,13 @@ private final FXDealService dealService;
 
 @PostMapping
 public ResponseEntity<?> saveDealDetails(@RequestBody DealRequestDto dto) {
-    try {
+
         log.info("Deal details saved in the successfully");
         return new ResponseEntity<>( dealService.saveFxDealDetails(dto), HttpStatus.CREATED);
-    } catch (Exception e) {
-        log.error("Error occurred while saving deal details: " + e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save deal details");
-    }
+
+//        log.error("Error occurred while saving deal details: " + e.getMessage());
+//    throw new DealAlreadyExistException("Deal with Id number: " +dto.getDealId() + " already exist");
+//
 }
 
     @GetMapping
@@ -48,7 +49,7 @@ public ResponseEntity<?> saveDealDetails(@RequestBody DealRequestDto dto) {
             return new ResponseEntity<>(dealService.getDealById(id), OK);
         } catch (Exception e) {
             log.error("Error occurred while retrieving deal by id: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve deal by id");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Failed to retrieve deal by id");
         }
     }
 }

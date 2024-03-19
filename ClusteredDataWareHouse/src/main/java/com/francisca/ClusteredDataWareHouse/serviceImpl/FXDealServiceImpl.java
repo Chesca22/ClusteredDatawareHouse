@@ -34,7 +34,7 @@ public class FXDealServiceImpl implements FXDealService {
     private final DataRepository dealRepository;
 @Override
     public ResponseEntity<?> saveFxDealDetails(DealRequestDto dto)  {
-        try {
+
             Optional<DealDetails> existingDealDetails = dealRepository.findByDealId(dto.getDealId());
             if(existingDealDetails.isEmpty()) {
                 DealDetails dealDetails = DealDetails.builder()
@@ -48,10 +48,7 @@ public class FXDealServiceImpl implements FXDealService {
                 return new ResponseEntity<>("FXDeal details with Id number" +dto.getDealId() + "saved successfully, Time: "  + LocalDateTime.now() , CREATED);
             }
             throw new DealAlreadyExistException("Deal with Id number: " +dto.getDealId() + " already exist");
-        } catch (Exception e) {
-            log.error("Error occurred while saving FX deal details: " + e.getMessage());
-            throw e;
-        }
+
     }
 
 
